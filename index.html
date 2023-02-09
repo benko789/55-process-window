@@ -2,11 +2,6 @@
 <html>
   <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<!--     <script
-      src="https://code.jquery.com/jquery-3.6.3.min.js"
-      integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
-      crossorigin="anonymous"></script>
-    <script src="jquery-csv.js"></script>  -->
     <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
@@ -32,71 +27,66 @@
       //   chart.draw(data, options);
       // }
       function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'X');
+        data.addColumn('number', 'Y');
+        data.addColumn({type:'string', role:'tooltip'});
         // load data from csv
-          // $.get("example.csv", function(csvString) {
-            // transform the CSV string into a 2-dimensional array
-            // var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+        var dataFromFile = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1lMLE16M-kFAhp__Rfu4mrpepBGUUiC_CQ0lNlvp6aK0/edit#gid=2035041721');
 
-            // Load data from local CSV file
-            var data = new google.visualization.DataTable();
-            data.addColumn('number', 'X');
-            data.addColumn('number', 'Y');
-            data.addColumn({type:'string', role:'tooltip'});
+        dataFromFile.send(handleQueryResponse)
+        // dataFromFile.send(function(response) {
+        //   data.addRows(response.getData());
 
-            var rawFile = new XMLHttpRequest();
-            rawFile.open("GET", "example.csv", false);
-            rawFile.onreadystatechange = function () {
-              if (rawFile.readyState === 4) {
-                if (rawFile.status === 200 || rawFile.status == 0) {
-                  var allText = rawFile.responseText;
-                  var allTextLines = allText.split(/\r\n|\n/);
-                  var lines = [];
-                  for (var i=0; i<allTextLines.length; i++) {
-                    var data = allTextLines[i].split(',');
-                    lines.push(data);
-                  }
-                  data.addRows(lines);
+        //   var options = {
+        //     title: 'Scatter Plot with Tooltips',
+        //     hAxis: {title: 'X'},
+        //     vAxis: {title: 'Y'},
+        //     tooltip: {isHtml: true}
+        //   };
 
-                  var options = {
-                    title: 'Scatter Plot with Tooltips',
-                    hAxis: {title: 'X'},
-                    vAxis: {title: 'Y'},
-                    tooltip: {isHtml: true}
-                  };
-
-                  var chart = new google.visualization.ScatterChart(document.getElementById('myDiv'));
-                  chart.draw(data, options);
-                }
-              }
-            }
-            rawFile.send(null);
-          //   var dataTable = new google.visualization.DataTable();
-
-          //   dataTable.addColumn('string', 'Country');
-          //   // Use custom HTML content for the domain tooltip.
-          //   dataTable.addColumn({'type': 'string', 'role': 'tooltip', 'p': {'html': true}});
-          //   dataTable.addColumn('number', 'Gold');
-          //   dataTable.addColumn('number', 'Silver');
-          //   dataTable.addColumn('number', 'Bronze');
-
-          //   dataTable.addRows([
-          //     ['USA', createCustomHTMLContent('https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg', 46, 29, 29), 46, 29, 29],
-          //     ['China', createCustomHTMLContent('https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_the_People%27s_Republic_of_China.svg', 38, 27, 23), 38, 27, 23],
-          //     ['UK', createCustomHTMLContent('https://upload.wikimedia.org/wikipedia/commons/a/ae/Flag_of_the_United_Kingdom.svg', 29, 17, 19), 29, 17, 19]
-          //   ]);
-
-          //   var options = {
-          //     title: 'London Olympics Medals',
-          //     colors: ['#FFD700', '#C0C0C0', '#8C7853'],
-          //     // This line makes the entire category's tooltip active.
-          //     focusTarget: 'category',
-          //     // Use an HTML tooltip.
-          //     tooltip: { isHtml: true }
-          //   };
-
-          // // Create and draw the visualization. need to ensure the getElementById has the correct name of the div
-          // new google.visualization.ColumnChart(document.getElementById('chart_div')).draw(dataTable, options);
+        //   var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+        //   chart.draw(data, options);
         // });
+
+      //   var dataTable = new google.visualization.DataTable();
+
+      //   dataTable.addColumn('string', 'Country');
+      //   // Use custom HTML content for the domain tooltip.
+      //   dataTable.addColumn({'type': 'string', 'role': 'tooltip', 'p': {'html': true}});
+      //   dataTable.addColumn('number', 'Gold');
+      //   dataTable.addColumn('number', 'Silver');
+      //   dataTable.addColumn('number', 'Bronze');
+
+      //   dataTable.addRows([
+      //     ['USA', createCustomHTMLContent('https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg', 46, 29, 29), 46, 29, 29],
+      //     ['China', createCustomHTMLContent('https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_the_People%27s_Republic_of_China.svg', 38, 27, 23), 38, 27, 23],
+      //     ['UK', createCustomHTMLContent('https://upload.wikimedia.org/wikipedia/commons/a/ae/Flag_of_the_United_Kingdom.svg', 29, 17, 19), 29, 17, 19]
+      //   ]);
+
+      //   var options = {
+      //     title: 'London Olympics Medals',
+      //     colors: ['#FFD700', '#C0C0C0', '#8C7853'],
+      //     // This line makes the entire category's tooltip active.
+      //     focusTarget: 'category',
+      //     // Use an HTML tooltip.
+      //     tooltip: { isHtml: true }
+      //   };
+
+      // // Create and draw the visualization. need to ensure the getElementById has the correct name of the div
+      // new google.visualization.ColumnChart(document.getElementById('chart_div')).draw(dataTable, options);
+      }
+
+      function handleQueryResponse(response) {
+
+        if (response.isError()) {
+          alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+          return;
+        }
+
+        var data = response.getDataTable();
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, {width: 400, height: 240, is3D: true});
       }
 
       function createCustomHTMLContent(flagURL, totalGold, totalSilver, totalBronze) {
