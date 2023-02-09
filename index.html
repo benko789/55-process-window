@@ -37,7 +37,7 @@
         // Read table from the response
         var data = response.getDataTable();
         // Construct custom HTML tooltip column
-        setColumnProperty(3, 'role', tooltip)
+        data.setColumnProperty(3, 'role', tooltip)
         // Plot the chart
         var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
         chart.draw(data, options);
