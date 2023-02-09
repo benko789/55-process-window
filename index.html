@@ -6,75 +6,16 @@
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
 
-      // function drawChart() {
-      //   var data = google.visualization.arrayToDataTable([
-      //     ['X', 'Y'],
-      //     [1, 10],
-      //     [2, 20],
-      //     [3, 30],
-      //     [4, 40]
-      //   ]);
-
-      //   var options = {
-      //     title: 'Scatter Plot',
-      //     hAxis: {title: 'X'},
-      //     vAxis: {title: 'Y'},
-      //     legend: 'none',
-      //     tooltip: {isHtml: true}
-      //   };
-
-      //   var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
-      //   chart.draw(data, options);
-      // }
       function drawChart() {
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'X');
-        data.addColumn('number', 'Y');
+        data.addColumn('number', 'Y1');
+        data.addColumn('number', 'Y2');
         data.addColumn({type:'string', role:'tooltip'});
         // load data from csv
         var dataFromFile = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1lMLE16M-kFAhp__Rfu4mrpepBGUUiC_CQ0lNlvp6aK0/edit#gid=2035041721');
 
         dataFromFile.send(handleQueryResponse)
-        // dataFromFile.send(function(response) {
-        //   data.addRows(response.getData());
-
-        //   var options = {
-        //     title: 'Scatter Plot with Tooltips',
-        //     hAxis: {title: 'X'},
-        //     vAxis: {title: 'Y'},
-        //     tooltip: {isHtml: true}
-        //   };
-
-        //   var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
-        //   chart.draw(data, options);
-        // });
-
-      //   var dataTable = new google.visualization.DataTable();
-
-      //   dataTable.addColumn('string', 'Country');
-      //   // Use custom HTML content for the domain tooltip.
-      //   dataTable.addColumn({'type': 'string', 'role': 'tooltip', 'p': {'html': true}});
-      //   dataTable.addColumn('number', 'Gold');
-      //   dataTable.addColumn('number', 'Silver');
-      //   dataTable.addColumn('number', 'Bronze');
-
-      //   dataTable.addRows([
-      //     ['USA', createCustomHTMLContent('https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg', 46, 29, 29), 46, 29, 29],
-      //     ['China', createCustomHTMLContent('https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_the_People%27s_Republic_of_China.svg', 38, 27, 23), 38, 27, 23],
-      //     ['UK', createCustomHTMLContent('https://upload.wikimedia.org/wikipedia/commons/a/ae/Flag_of_the_United_Kingdom.svg', 29, 17, 19), 29, 17, 19]
-      //   ]);
-
-      //   var options = {
-      //     title: 'London Olympics Medals',
-      //     colors: ['#FFD700', '#C0C0C0', '#8C7853'],
-      //     // This line makes the entire category's tooltip active.
-      //     focusTarget: 'category',
-      //     // Use an HTML tooltip.
-      //     tooltip: { isHtml: true }
-      //   };
-
-      // // Create and draw the visualization. need to ensure the getElementById has the correct name of the div
-      // new google.visualization.ColumnChart(document.getElementById('chart_div')).draw(dataTable, options);
       }
 
       function handleQueryResponse(response) {
@@ -93,7 +34,11 @@
           tooltip: { isHtml: true }
         };
 
+        // Read table from the response
         var data = response.getDataTable();
+        // Construct custom HTML tooltip column
+
+        // Plot the chart
         var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
         chart.draw(data, options);
       }
