@@ -37,8 +37,8 @@
         tooltip_html_column_index = data.getColumnIndex('Tooltip HTML');
         // Construct custom HTML tooltip column for each row that are data points
         for (let i = 0; i < data.getNumberOfRows(); i++) {
-          if (!data.getValue(i, datapoint_column_index)) {
-            // this row is data points row, set the value of the tooltip column to be the html code
+          if (data.getValue(i, datapoint_column_index)) {
+            // this row is data point row, set the value of the tooltip column to be the html code
             data.setCell(i, tooltip_html_column_index, createCustomHTMLContent('', 'TestID', data.getValue(i, datapoint_column_index), data.getValue(i, 0), 0));
           }
         }
