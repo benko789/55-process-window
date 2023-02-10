@@ -33,7 +33,7 @@
         image_link_column_index = data.getColumnIndex('Image Link');
 
         // add a new column storing the html code for tooltip
-        data.addColumn({type:'string', label:'Tooltip HTML', role:'tooltip'})
+        data.addColumn({type:'string', label:'Tooltip HTML', role:'tooltip', p: {'html': true}})
         tooltip_html_column_index = data.getColumnIndex('Tooltip HTML');
         // Construct custom HTML tooltip column for each row that are data points
         for (let i = 0; i < data.getNumberOfRows(); i++) {
