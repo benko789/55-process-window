@@ -47,7 +47,7 @@
         var view = new google.visualization.DataView(data);
         view.setColumns([0, process_window_column_index, datapoint_column_index, tooltip_html_column_index]); // <-- exclude string columns
 
-        // generate plotting options
+        // generate chart options
         var options = {
           title: 'Test Plot',
           colors: ['#FFD700', '#C0C0C0', '#8C7853'],
@@ -56,8 +56,10 @@
         };
 
         // Plot the chart
-        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
-        chart.draw(view, options);
+        // var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+        // chart.draw(view, options);
+        var table = new google.visualization.Table(document.getElementById('chart_div'));
+        table.draw(view, {showRowNumber: true, width: '100%', height: '100%'});
       }
 
       function createCustomHTMLContent(imageURL, sample_id, temperature_c, pressure_mpa, totalBronze) {
