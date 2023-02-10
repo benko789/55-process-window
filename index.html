@@ -25,33 +25,52 @@
           return;
         }
 
+        // Read table from the response
+        var data = response.getDataTable();
+        // Get column index based on column names
+        datapoint_column_index = data.getColumnIndex('Data Points');
+        process_window_column_index = data.getColumnIndex('Process Window');
+        image_link_column_index = data.getColumnIndex('Image Link');
+
+        // add a new column storing the html code for tooltip
+        data.addColumn({type:'string', label:'Tooltip HTML', role:'tooltip'})
+        tooltip_html_column_index = data.getColumnIndex('Tooltip HTML');
+        // Construct custom HTML tooltip column for each row that are data points
+        for (let i = 0; i < data.getNumberOfRows(); i++) {
+          if (!data.getValue(i, datapoint_column_index)) {
+            // this row is data points row
+            data.setCell(i, datapoint_column_index, createCustomHTMLContent('', 'TestID', data.getValue(i, datapoint_column_index), data.getValue(i, 0), 0));
+          }
+        }
+        // data.setColumnProperty(3, 'role', 'tooltip')
+        // ignore string columns
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0, process_window_column_index, datapoint_column_index, tooltip_html_column_index]); // <-- exclude string columns
+
+        // generate plotting options
         var options = {
           title: 'Test Plot',
           colors: ['#FFD700', '#C0C0C0', '#8C7853'],
-          // This line makes the entire category's tooltip active.
-          focusTarget: 'category',
           // Use an HTML tooltip.
           tooltip: { isHtml: true }
         };
 
-        // Read table from the response
-        var data = response.getDataTable();
-        // Construct custom HTML tooltip column
-        data.setColumnProperty(3, 'role', 'tooltip')
         // Plot the chart
         var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
+        chart.draw(view, options);
       }
 
-      function createCustomHTMLContent(flagURL, totalGold, totalSilver, totalBronze) {
+      function createCustomHTMLContent(imageURL, sample_id, temperature_c, pressure_mpa, totalBronze) {
         return '<div style="padding:5px 5px 5px 5px;">' +
-            '<img src="' + flagURL + '" style="width:75px;height:50px"><br/>' +
-            '<table class="medals_layout">' + '<tr>' +
-            '<td><img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Gold_medal.svg" style="width:25px;height:25px"/></td>' +
-            '<td><b>' + totalGold + '</b></td>' + '</tr>' + '<tr>' +
-            '<td><img src="https://upload.wikimedia.org/wikipedia/commons/0/03/Silver_medal.svg" style="width:25px;height:25px"/></td>' +
-            '<td><b>' + totalSilver + '</b></td>' + '</tr>' + '<tr>' +
-            '<td><img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Bronze_medal.svg" style="width:25px;height:25px"/></td>' +
+            // '<img src="' + imageURL + '" style="width:75px;height:50px"><br/>' +
+            '<table class="data_layout">' + '<tr>' +
+            '<td><b>Sample ID: </b></td>' +
+            '<td><b>' + sample_id + '</b></td>' + '</tr>' + '<tr>' +
+            '<td><b>Temperature: </b></td>' +
+            '<td><b>' + temperature_c + '</b></td>' + '</tr>' + '<tr>' +
+            '<td><b>Pressure: </b></td>' +
+            '<td><b>' + pressure_mpa + '</b></td>' + '</tr>' + '<tr>' +
+            '<td><b>Bronze: </b></td>' +
             '<td><b>' + totalBronze + '</b></td>' + '</tr>' + '</table>' + '</div>';
       }
     </script>
