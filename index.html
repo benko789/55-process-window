@@ -39,7 +39,15 @@
         for (let i = 0; i < data.getNumberOfRows(); i++) {
           if (data.getValue(i, datapoint_column_index)) {
             // this row is data point row, set the value of the tooltip column to be the html code
-            data.setCell(i, tooltip_html_column_index, createCustomHTMLContent('', 'TestID', data.getValue(i, datapoint_column_index), data.getValue(i, 0), 0));
+            data.setCell(i, tooltip_html_column_index, 
+              createCustomHTMLContent(
+                data.getValue(i, image_link_column_index),  // URL to image
+                'Test ID',                                  // Sample ID / Name
+                data.getValue(i, datapoint_column_index),   // temperature
+                data.getValue(i, 0),                        // pressure
+                0
+              )
+            );
           }
         }
         // data.setColumnProperty(3, 'role', 'tooltip')
@@ -64,7 +72,7 @@
 
       function createCustomHTMLContent(imageURL, sample_id, temperature_c, pressure_mpa, totalBronze) {
         return '<div style="padding:5px 5px 5px 5px;">' +
-            // '<img src="' + imageURL + '" style="width:75px;height:50px"><br/>' +
+            '<img src="' + imageURL + '" style="width:100px;height:100px"><br/>' +
             '<table class="data_layout">' + '<tr>' +
             '<td><b>Sample ID: </b></td>' +
             '<td><b>' + sample_id + '</b></td>' + '</tr>' + '<tr>' +
