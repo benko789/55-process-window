@@ -64,6 +64,15 @@
           // 
           seriesType: 'line',
           series: {1: {type: 'scatter'}} // Datapoints are scatter
+          // 
+          vAxis: { title : 'Temperature (\u00B0C)'}
+          hAxis: {
+            title : 'Pressure (MPa)',
+            viewWindow: {
+                min: 4,
+                max: 14
+            }
+          }
         };
 
         // Plot the chart
