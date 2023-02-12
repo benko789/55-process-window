@@ -57,22 +57,22 @@
 
         // generate chart options
         var options = {
-          title: 'Test Plot',
+          title: 'Process Window Diagram',
           colors: ['#FFD700', '#C0C0C0', '#8C7853'],
           // Use an HTML tooltip.
           tooltip: { isHtml: true },
           // 
           seriesType: 'line',
-          series: {1: {type: 'scatter'}} // Datapoints are scatter
+          series: {1: {type: 'scatter'}}, // Datapoints are scatter
           // 
-          vAxis: { title : 'Temperature (\u00B0C)'}
+          vAxis: { title : 'Temperature (\u00B0C)'},
           hAxis: {
             title : 'Pressure (MPa)',
             viewWindow: {
                 min: 4,
                 max: 14
             }
-          }
+          },
         };
 
         // Plot the chart
