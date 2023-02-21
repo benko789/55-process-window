@@ -31,6 +31,7 @@
         datapoint_column_index = data.getColumnIndex('Data Points');
         process_window_column_index = data.getColumnIndex('Process Window');
         image_link_column_index = data.getColumnIndex('Image Link');
+        sample_id_column_index = data.getColumnIndex('Sample ID');
 
         // add a new column storing the html code for tooltip
         data.addColumn({type:'string', label:'Tooltip HTML', role:'tooltip', p: {'html': true}})
@@ -42,7 +43,7 @@
             data.setCell(i, tooltip_html_column_index, 
               createCustomHTMLContent(
                 data.getValue(i, image_link_column_index),  // URL to image
-                'Test ID',                                  // Sample ID / Name
+                data.getValue(i, sample_id_column_index),                                  // Sample ID / Name
                 data.getValue(i, datapoint_column_index),   // temperature -> y-axis
                 data.getValue(i, 0),                        // pressure -> x-axis
                 0
