@@ -89,7 +89,8 @@
       function createCustomHTMLContent(imageURL, sample_id, temperature_c, pressure_mpa, totalBronze) {
         return '<div style="padding:5px 5px 5px 5px;">' +
             // '<img src="' + imageURL + '" style="width:300px;height:150px"><br/>' +
-            '<img src="' + imageURL + '" style="width:300px"><br/>' +
+            // '<img src="' + imageURL + '" style="width:300px;"><br/>' +
+            '<img src="' + imageURL + '" style="max-width:300px;max-height:150px;width:auto;height:auto;"><br/>' +
             '<table class="data_layout">' + '<tr>' +
             '<td><b>Sample ID: </b></td>' +
             '<td><b>' + sample_id + '</b></td>' + '</tr>' + '<tr>' +
