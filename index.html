@@ -5,6 +5,18 @@
     <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart', 'table']});
       google.charts.setOnLoadCallback(drawChart);
+      // temporarily save preload images to CACHE (not visible)
+      var cache = document.createElement("CACHE");
+      cache.style = "position:absolute;z-index:-1000;opacity:0;";
+      document.body.appendChild(cache);
+
+      // preload image function
+      function preloadImage(url) {
+          var img = new Image();
+          img.src = url;
+          img.style = "position:absolute";
+          cache.appendChild(img);
+      }
 
       function drawChart() {
         var data = new google.visualization.DataTable();
@@ -39,11 +51,13 @@
         // Construct custom HTML tooltip column for each row that are data points
         for (let i = 0; i < data.getNumberOfRows(); i++) {
           if (data.getValue(i, datapoint_column_index)) {
+            // @TODO: Preload image here
+            preloadImage(data.getValue(i, image_link_column_index));
             // this row is data point row, set the value of the tooltip column to be the html code
             data.setCell(i, tooltip_html_column_index, 
               createCustomHTMLContent(
                 data.getValue(i, image_link_column_index),  // URL to image
-                data.getValue(i, sample_id_column_index),                                  // Sample ID / Name
+                data.getValue(i, sample_id_column_index),   // Sample ID / Name
                 data.getValue(i, datapoint_column_index),   // temperature -> y-axis
                 data.getValue(i, 0),                        // pressure -> x-axis
                 0
@@ -98,9 +112,10 @@
             '<td><b>Temperature: </b></td>' +
             '<td><b>' + temperature_c + ' \u00B0C</b></td>' + '</tr>' + '<tr>' +
             '<td><b>Pressure: </b></td>' +
-            '<td><b>' + pressure_mpa + ' MPa</b></td>' + '</tr>' + '<tr>' +
-            '<td><b>Bronze: </b></td>' +
-            '<td><b>' + totalBronze + '</b></td>' + '</tr>' + '</table>' + '</div>';
+            '<td><b>' + pressure_mpa + ' MPa</b></td>' + '</tr>' + '</div>';
+            // '<tr>' +
+            // '<td><b>Bronze: </b></td>' +
+            // '<td><b>' + totalBronze + '</b></td>' + '</tr>' + '</table>' + 
       }
     </script>
   </head>
