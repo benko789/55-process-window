@@ -95,7 +95,9 @@
         // chart.draw(view, options);
         var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
         chart.draw(view, options);
-
+        google.visualization.events.addListener(chart, 'onmouseover', function(properties) {
+            console.log(JSON.stringify(properties));
+        });
         // debug purpose 
         // var table = new google.visualization.Table(document.getElementById('chart_div'));
         // table.draw(view, {showRowNumber: true, showColumnNumber: true, width: '100%', height: '100%'});
