@@ -97,6 +97,9 @@
         chart.draw(view, options);
         google.visualization.events.addListener(chart, 'onmouseover', function(properties) {
             console.log(JSON.stringify(properties));
+            image_link = data.getValue(properties.row, image_link_column_index);
+            image_large = document.getElementById('image_large');
+            image_large.src = image_link;
         });
         // debug purpose 
         // var table = new google.visualization.Table(document.getElementById('chart_div'));
@@ -124,5 +127,8 @@
   <body>
     <!-- here is the section that the chart is showing at -->
     <div id="chart_div" style="width: 900px; height: 500px;"></div>
+    <div id="image_large_div" style="width: 900px; height: 500px;">
+      <img id = "image_large" src="something.jpg" alt="Zoomed in imaged of hovered datapoint" />
+    </div>
   </body>
 </html>
